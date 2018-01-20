@@ -341,7 +341,7 @@ def bestMap(L1, L2):
 
 
 def dataset_settings(dataset):
-    if (dataset == 'MNIST-full') | (dataset == 'MNIST-test'):
+    if (dataset == 'MNIST-full') | (dataset == 'MNIST-test') or dataset=='mnist':
         kernel_sizes = [4, 5]
         strides = [2, 2]
         paddings = [0, 2]
@@ -449,11 +449,25 @@ def kmeans(encoder_val_clean, y, nClusters, y_pred_prev=None, weight_initilizati
     return centroids, kmeans_model.inertia_, y_pred
 
 
-def load_dataset(dataset_path):
+def load_dataset_old(dataset_path):
     hf = h5py.File(dataset_path + '/data.h5', 'r')
     X = np.asarray(hf.get('data'), dtype='float32')
     X_train = (X - np.float32(127.5)) / np.float32(127.5)
     y_train = np.asarray(hf.get('labels'), dtype='int32')
+    return X_train, y_train
+
+
+def load_dataset(dataset_path):
+    from importlib import import_module
+    dataset_tools = import_module('tools.' + dataset_path)
+
+    X_train, y_train = dataset_tools.get_data('train') 
+    print(X_train.shape)
+    X_train = np.transpose(X_train, [0,3,1,2])  # change to theano data format
+    print(X_train.shape, 'new shape')
+    #test_images, test_labels = dataset_tools.get_data('test')
+    
+    X_train = (X_train - np.float32(127.5)) / np.float32(127.5)
     return X_train, y_train
 
 

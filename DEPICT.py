@@ -16,12 +16,13 @@ def use_least_loaded_gpu(least_loaded=None):
         total_util = [int(i) + int(j) for i, j in zip(gpu_mem_util, gpu_util)]
         # total_util = gpu_util
         least_loaded = total_util.index(min(total_util))
+        print('least loaded gpu', least_loaded)
         os.environ["THEANO_FLAGS"] = "device=cuda" + str(least_loaded)
     else:
         os.environ["THEANO_FLAGS"] = "device=cuda" + str(least_loaded)
 
 
-use_least_loaded_gpu()
+#use_least_loaded_gpu()
 
 import argparse
 from functions import *
@@ -72,9 +73,9 @@ batch_size = args.batch_size
 cluster_hyperparam = args.cluster_hyperparam
 reconstruct_hyperparam = args.reconstruct_hyperparam
 verbose = args.verbose
-
+exit()
 ############################## Load Data  ##############################
-X, y = load_dataset(datasets_path + dataset)
+X, y = load_dataset(dataset)
 num_clusters = len(np.unique(y))
 num_samples = len(y)
 dimensions = [X.shape[1], X.shape[2], X.shape[3]]
