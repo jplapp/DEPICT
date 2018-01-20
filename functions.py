@@ -346,6 +346,16 @@ def dataset_settings(dataset):
         strides = [2, 2]
         paddings = [0, 2]
         test_batch_size = 100
+    elif dataset == 'cifar_inmemory' or dataset =='svhn':
+        kernel_sizes = [4,5]
+        strides = [2,2]
+        paddings = [0,2]
+        test_batch_size=100
+    elif dataset == 'stl10':
+        kernel_sizes = [7,5]  #larger size for initial kernel
+        strides = [3,2]
+        paddings = [0,2]
+        test_batch_size=100
     elif dataset == 'USPS':
         kernel_sizes = [4, 5]
         strides = [2, 2]
@@ -463,7 +473,7 @@ def load_dataset(dataset_path):
 
     X_train, y_train = dataset_tools.get_data('train') 
     print(X_train.shape)
-    X_train = np.transpose(X_train, [0,3,1,2])  # change to theano data format
+    X_train = np.transpose(np.array(X_train, np.float32), [0,3,1,2])  # change to theano data format
     print(X_train.shape, 'new shape')
     #test_images, test_labels = dataset_tools.get_data('test')
     

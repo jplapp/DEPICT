@@ -73,7 +73,6 @@ batch_size = args.batch_size
 cluster_hyperparam = args.cluster_hyperparam
 reconstruct_hyperparam = args.reconstruct_hyperparam
 verbose = args.verbose
-exit()
 ############################## Load Data  ##############################
 X, y = load_dataset(dataset)
 num_clusters = len(np.unique(y))
