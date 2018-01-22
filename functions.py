@@ -352,7 +352,7 @@ def dataset_settings(dataset):
         paddings = [0,2]
         test_batch_size=100
     elif dataset == 'stl10':
-        kernel_sizes = [7,5]  #larger size for initial kernel
+        kernel_sizes = [6,5]  #larger size for initial kernel
         strides = [3,2]
         paddings = [0,2]
         test_batch_size=100
@@ -474,6 +474,9 @@ def load_dataset(dataset_path):
     X_train, y_train = dataset_tools.get_data('train') 
     print(X_train.shape)
     X_train = np.transpose(np.array(X_train, np.float32), [0,3,1,2])  # change to theano data format
+    if X_train.shape[0] > 20000: # otherwise, clustering fails
+        X_train = X_train[0:20000]
+        y_train = y_train[0:20000]
     print(X_train.shape, 'new shape')
     #test_images, test_labels = dataset_tools.get_data('test')
     
